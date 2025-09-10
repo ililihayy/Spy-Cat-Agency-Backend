@@ -50,7 +50,7 @@ def update_target(db: Session, target_id: int, target_update: TargetUpdate):
 def delete_target(db: Session, target_id: int):
     db_target = get_target(db, target_id)
     if not db_target:
-        return None
+        raise HTTPException(status_code=404, detail="Target not found.")
     db.delete(db_target)
     db.commit()
     return db_target

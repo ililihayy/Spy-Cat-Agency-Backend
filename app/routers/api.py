@@ -1,4 +1,3 @@
-# app/routers/api.py
 from fastapi import APIRouter
 from app.routers import cat, mission, target
 
