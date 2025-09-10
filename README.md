@@ -69,6 +69,12 @@ The API will be available at:
 - `PUT /targets/{id}` – Update a target
 - `DELETE /targets/{id}` – Delete a target
 
+## Postman Collection
+
+You can import all endpoints into Postman using this collection:
+
+[Download Postman Collection](postman/Spy%20Cat%20Agency%20API.postman_collection.json)
+
 ## Tech Stack
 
 - **Framework**: FastAPI
