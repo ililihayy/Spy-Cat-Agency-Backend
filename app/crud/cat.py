@@ -10,8 +10,6 @@ def get_cats(db: Session, skip: int = 0, limit: int | None = None):
     if limit is not None:
         query = query.limit(limit)
     cats = query.all()
-    if not cats:
-        raise HTTPException(status_code=404, detail="No cats found.")
     return cats
 
 
@@ -25,6 +23,14 @@ def get_cat(db: Session, cat_id: int):
 def create_cat(db: Session, cat: CatCreate):
     if not is_valid_breed(cat.breed):
         raise HTTPException(status_code=400, detail="Invalid cat breed.")
+    
+    cat_create = cat.model_dump(exclude_unset=True)
+
+    if "salary" in cat_create and cat_create["salary"] < 0:
+        raise HTTPException(status_code=400, detail="Salary must be at least 0.")
+
+    if "years_experience" in cat_create and cat_create["years_experience"] < 0:
+        raise HTTPException(status_code=400, detail="Years experience must be at least 0.")
     
     db_cat = Cat(**cat.model_dump())
     db.add(db_cat)
@@ -44,7 +50,7 @@ def update_cat(db: Session, cat_id: int, cat_update: CatUpdate):
     update_data = cat_update.model_dump(exclude_unset=True)
 
     if "salary" in update_data and update_data["salary"] < 0:
-        raise HTTPException(status_code=400, detail="Salary must be positive float.")
+        raise HTTPException(status_code=400, detail="Salary must be at least 0.")
 
     for key, value in update_data.items():
         setattr(db_cat, key, value)
