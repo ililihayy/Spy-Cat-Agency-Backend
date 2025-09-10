@@ -1,1 +1,1 @@
-from thecatapi import is_valid_breed
+from .thecatapi import is_valid_breed
